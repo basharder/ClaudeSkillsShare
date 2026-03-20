@@ -1,0 +1,55 @@
+# Retail Channel Pre-Screen
+
+## When to Use
+Load this file when Channel = Retail / Consumer-Facing. Run all three checks before the weighted validation matrix. If any check fails, stop immediately — do not generate a rationale table, do not register to the database.
+
+---
+
+## Pre-Screen Checks
+
+### Pre-Screen A — Form Factor
+Competitor form factor must match exactly:
+`Fan-only` | `Fan-light combo` | `Fan-light-nightlight` | `Inline` | `Multi-port`
+
+Mismatch = **HARD PASS. Stop.** Output "HARD PASS — Visual/Commercial Mismatch (Form Factor)."
+
+### Pre-Screen B — Lighting Configuration
+Fan-only → Fan-only required. Combo → Combo required.
+Any lighting addition or removal = **HARD PASS. Stop.**
+
+Output "HARD PASS — Visual/Commercial Mismatch (Lighting Configuration)."
+*(Lighting addition changes electrical rough-in = HIGH correction cost. Lighting removal = feature regression = guaranteed consumer complaint.)*
+
+### Pre-Screen C — Grille Profile
+Square → Square | Round → Round | Flush → Flush | Decorative → Decorative
+
+Mismatch = **Best Option maximum. Cannot be TRUE.**
+Document "Grille Mismatch" in Notes. Correction Cost Exposure = MEDIUM.
+*(Pre-Screen C is not a hard stop — proceed to matrix with Best Option ceiling.)*
+
+---
+
+## Pre-Screen Output Block
+
+Output this table before the rationale table on all retail channel runs:
+
+| Pre-Screen | Requirement | Competitor | Canarm Match | Pass/Fail |
+|---|---|---|---|---|
+| Form Factor | Identical category | X | Y | Pass/Fail |
+| Lighting Config | Must match | X | Y | Pass/Fail |
+| Grille Profile | Compatible shape/style | X | Y | Pass/Fail |
+
+---
+
+## Contractor Channel Notes
+When Channel = Contractor, run Pre-Screen A, B, C as **documentation fields only** — not hard gates. Record results in the rationale table rows (Form Factor, Lighting Config, Grille Profile). Let contractor decide. Ensure mismatch decisions are recorded in Notes, not buried.
+
+---
+
+## Correction Cost Exposure — Pre-Screen Defaults
+
+| Pre-Screen Failure | Default Exposure |
+|---|---|
+| Form Factor mismatch | CRITICAL |
+| Lighting Config mismatch | HIGH (electrical change required) |
+| Grille Profile mismatch | MEDIUM |

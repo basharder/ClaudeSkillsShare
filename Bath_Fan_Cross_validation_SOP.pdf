@@ -1,0 +1,49 @@
+# Intent Qualification Gate
+
+## Mandatory — Runs Before All Other Steps
+
+When a competitor SKU or batch is submitted, **STOP**. Do not pull specs. Do not check the database. Do not run the matrix. Use the `ask_user_input` tool to present all four qualifying questions at once. No validation work begins until all four are answered.
+
+**If a SKU is already found in the validated database:** note that a cached result is available, but still collect the four qualifiers — they affect how the cached result is presented and whether it's still suitable for the stated channel and intent.
+
+---
+
+## Qualifying Questions (present as structured widget via ask_user_input tool)
+
+**Q1 — Installation Context:** "Is this replacement for an existing installation or new construction?"
+Options: `Retrofit (existing ceiling cavity)` | `New Construction` | `Unknown`
+
+**Q2 — Purpose of This Batch:** "What is the goal of this validation run?"
+Options: `Finding a replacement today` | `Auditing catalog coverage/gaps` | `Both`
+
+**Q3 — Volume and Channel:** "What is the end-use context for these units?"
+Options: `Single unit / homeowner` | `Contractor / project quantity` | `Retail shelf (Menards, Home Depot, etc.)` | `Distribution / wholesale`
+
+**Q4 — Upgrade Tolerance:** "What is the acceptable match standard?"
+Options: `Closest equivalent only (minimize all variance)` | `Best available option acceptable (upgrades tolerated)` | `Price-sensitive (flag any replacement with significant price delta)`
+
+---
+
+## How Intent Answers Modify the Validation Workflow
+
+**If Context = Retrofit:**
+- Housing depth gate weight increases. Any depth variance beyond 1/4" is auto Hard Pass.
+- Footprint mismatch flagged as High Risk regardless of functional spec alignment.
+- Correction Cost Exposure defaults to HIGH for any depth or footprint variance — on-site correction requires ceiling modification with a tradesperson already present.
+
+**If Purpose = Catalog Gap Audit:**
+- NO MATCH results are the primary output, not failures.
+- Accumulate all NO MATCHes by CFM tier, duct size, and depth.
+- Output a gap frequency table at the end of the batch in addition to standard results.
+
+**If Channel = Retail / Consumer-Facing:**
+Run the mandatory Retail Pre-Screen (see `references/retail-pre-screen.md`) before Tier 1 depth gate. All three checks must pass or unit is classified Hard Pass — Visual/Commercial Mismatch. Do not proceed to functional matrix.
+
+**If Channel = Contractor / Project:**
+Pre-Screen A, B, C become documentation fields only — not hard gates. Flag differences explicitly. Let contractor decide. Ensure decision is recorded in Notes, not buried. Correction Cost Exposure must still be calculated — contractor channel does not eliminate callback risk, it shifts who owns it.
+
+**If Upgrade Tolerance = Closest Equivalent Only:**
+Any motor type crossing (PSC → DC) downgrades classification one level regardless of functional spec alignment. Document reason explicitly.
+
+**If Upgrade Tolerance = Price-Sensitive OR Channel = Retail:**
+If competitor unit and proposed Canarm match have a price delta exceeding 25%: flag as "Commercial Review Required" before publishing. Treat price gap as a signal of undocumented feature or form factor difference. Do not publish match until delta is explained by a specific identified spec difference.
